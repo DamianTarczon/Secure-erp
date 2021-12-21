@@ -1,3 +1,5 @@
+from tabulate import tabulate
+
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
@@ -11,7 +13,10 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    pass
+    print(f'{title}:')
+    for i in range(len(list_options)):
+        print(f'({i+1}) {list_options[i]}')
+    print(f'({0}) {list_options[0]}')
 
 
 def print_message(message):
@@ -20,7 +25,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):
@@ -39,13 +44,13 @@ def print_general_results(result, label):
 # |--------|------------|----------|
 # |   1    | Sidewinder | missile  |
 # \-----------------------------------/
-def print_table(table):
+def print_table(table, head):
     """Prints tabular data like above.
 
     Args:
         table: list of lists - the table to print out
     """
-    pass
+    print(tabulate(table, headers=head, tablefmt="fancy_grid"))
 
 
 def get_input(label):
@@ -54,7 +59,8 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    pass
+    user_input = input(f'{label}: ')
+    return user_input
 
 
 def get_inputs(labels):
@@ -63,7 +69,12 @@ def get_inputs(labels):
     Args:
         labels: list - the list of the labels to be displayed before each prompt
     """
-    pass
+    list_of_user_inputs = []
+    for i in labels:
+        user_input = input(f'{i}:')
+        list_of_user_inputs.append(user_input)
+    return list_of_user_inputs
+
 
 
 def print_error_message(message):
@@ -72,4 +83,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(f'Error: {message}!')
