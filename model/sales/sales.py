@@ -23,7 +23,7 @@ def list_transactions():
     print("This is a list of transactions!")
     return list_of_transactions
 
-def add_transaction(table):
+def add_transaction():
     table = data_manager.read_table_from_file(DATAFILE)
     id = util.generate_id(number_of_small_letters=4,
                 number_of_capital_letters=2,
@@ -89,7 +89,7 @@ def update_transaction():
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
 
-def delete_transaction(table):
+def delete_transaction():
     id_index = 0
     table = data_manager.read_table_from_file(DATAFILE)
     customer_to_delete = input("Please provide id number of transaction you want to remove: ")
