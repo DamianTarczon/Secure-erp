@@ -3,7 +3,7 @@ from view import terminal as view
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 
 def list_employees():
-    view.print_general_results(hr.list_employees(), "lista employees")
+    view.print_general_results(hr.list_employees(), "List of employees")
 
 
 def add_employee():
@@ -11,11 +11,11 @@ def add_employee():
 
 
 def update_employee():
-    view.print_table(hr.update_employee(), HEADERS)
+    view.print_table(hr.update_employee(), hr.HEADERS)
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(hr.delete_employee(), hr.HEADERS)
 
 
 def get_oldest_and_youngest():

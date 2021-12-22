@@ -82,12 +82,10 @@ def delete_employee():
         if line[id_index] == employee_to_delete:
             table.remove(line)
             print(f"Employee with id number {employee_to_delete} has been removed!")
-        else:
-            print(f"There isn't id number like {employee_to_delete} in file! Please choose correct employee.")
-            return delete_employee(table)  
-    data_manager.write_table_to_file(DATAFILE, table, separator=';') 
-    return table
-
+            data_manager.write_table_to_file(DATAFILE, table, separator=';') 
+            return table
+    print(f"There isn't id number like {employee_to_delete} in file! Please choose correct employee.")
+ 
 
 def get_oldest_and_youngest():
     name_index = table[1]

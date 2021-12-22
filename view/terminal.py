@@ -38,7 +38,7 @@ def print_general_results(result, label):
     if isinstance(result, int):
         print(f'{label}: {result}')
     elif isinstance(result, float):
-        print("{:.2}".format(result))
+        print(label,':', "{:.2f}".format(result))
     elif isinstance(result, list) or isinstance(result, tuple):
         print(f'{label}: ')
         for i in result:
