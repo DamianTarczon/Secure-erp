@@ -11,17 +11,17 @@ import re
 from model import data_manager, util
 import pandas as pd 
 
-DATAFILE = "model/sales/sales.csv"
+DATAFILE = "secure-erp-python-mateuszski\model\sales\sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 def list_transactions():
-    list_of_transactions = []
-    table = data_manager.read_table_from_file(DATAFILE)
-    content = [word.split(";") for word in table.readlines()]
-    for i in content:
-        list_of_transactions.append(i[1])
-    print("This is a list of transactions!")
-    return list_of_transactions
+    # list_of_transactions = []
+    # table = data_manager.read_table_from_file(DATAFILE)
+    # content = [word.split(";") for word in table.readlines()]
+    # for i in content:
+    #     list_of_transactions.append(i[1])
+    # print("This is a list of transactions!")
+    return data_manager.read_table_from_file(DATAFILE)
 
 def add_transaction():
     table = data_manager.read_table_from_file(DATAFILE)
@@ -59,7 +59,7 @@ def update_transaction():
                 number_of_digits=2,
                 number_of_special_chars=2,
                 allowed_special_chars=r"_+-!")
-    transaction_to_update = input("Please provide id number of transaction you want to update: ")
+    transaction_to_update = input("Please provide id number of transaction you want to update:")
     for line in table:
         if line[id_index] == transaction_to_update:
             print(f"You choose {line[customer_index]} to update!")
@@ -83,9 +83,9 @@ def update_transaction():
                 day = input("Enter day: ")
                 line[date_index] = f'{year}-{month}-{day}'
                 print(f"Date for {line[id_index]} has been changed ")
-        else:
-            print(f"There isn't id like {transaction_to_update} in file! Please choose correct customer.")
-            return update_transaction(table) 
+            else:
+                print(f"There isn't id like {transaction_to_update} in file! Please choose correct customer.")
+                return update_transaction() 
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
 
@@ -97,9 +97,6 @@ def delete_transaction():
         if line[id_index] == customer_to_delete:
             table.remove(line)
             print(f"Transaction with id number {customer_to_delete} has been removed!")
-        else:
-            print(f"There isn't id number like {customer_to_delete} in file! Please choose correct transaction.")
-            return delete_transaction(table)
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
 
@@ -110,11 +107,11 @@ def get_biggest_revenue_transaction():
     value_index = 3
     max_value = 0
     for line in transaction_list:
-        line = re.split(r';',line)
         if float(line[value_index]) > max_value:
             transaction_id[id_index] = line[id_index]
             max_value = float(line[value_index])
     return transaction_id[id_index]
+
 
 def get_biggest_revenue_product():
     product_index = 2
@@ -157,12 +154,11 @@ def count_transactions_between():
     date = []
     file = data_manager.read_table_from_file(DATAFILE)
     for line in file:
-        all_lists = line.split(";")
-        id.append(all_lists[0])
-        customer.append(all_lists[1])
-        product.append(all_lists[2])
-        price.append(all_lists[3])
-        date.append(all_lists[4])
+        id.append(line[0])
+        customer.append(line[1])
+        product.append(line[2])
+        price.append(line[3])
+        date.append(line[4])
     new_dict = {}
     new_dict[HEADERS[0]] = id
     new_dict[HEADERS[1]] = customer
@@ -191,12 +187,11 @@ def sum_transactions_between():
     date = []
     file = data_manager.read_table_from_file(DATAFILE)
     for line in file:
-        all_lists = line.split(";")
-        id.append(all_lists[0])
-        customer.append(all_lists[1])
-        product.append(all_lists[2])
-        price.append(all_lists[3])
-        date.append(all_lists[4])
+        id.append(line[0])
+        customer.append(line[1])
+        product.append(line[2])
+        price.append(line[3])
+        date.append(line[4])
     new_dict = {}
     new_dict[HEADERS[0]] = id
     new_dict[HEADERS[1]] = customer
@@ -217,6 +212,7 @@ def sum_transactions_between():
     data_from_file['Price'] = data_from_file['Price'].astype(float)
     total = data_from_file['Price'].sum()
     return total 
+
 
     
 
