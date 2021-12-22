@@ -19,9 +19,8 @@ def list_customers():
     table = data_manager.read_table_from_file(DATAFILE)
     for i in table:
         list_of_customers.append(i[name_index])
-    print()
-    return list_of_customers
-    print()
+    new_list = ["\n".join(list_of_customers)]
+    return new_list
 
 
 def add_customer(table): 
@@ -99,5 +98,5 @@ def get_subscribed_emails(table):
         if line[sub_index] == "1":
             sub_email = str(line[email_index])
             list_subscribed_emails.append(sub_email)
-    print(f"This is a list of emails that subscribe to us!")
-    return list_subscribed_emails
+    new_list = ["\n".join(list_subscribed_emails)]
+    return new_list
