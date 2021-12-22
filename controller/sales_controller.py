@@ -1,37 +1,50 @@
 from model.sales import sales
 from view import terminal as view
 
+HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(sales.list_transactions(), HEADERS)
+    # view.print_error_message("Not implemented yet.")
 
 
-def add_transaction():
-    view.print_error_message("Not implemented yet.")
+def add_transaction():  
+    sales.add_transaction()
+    # view.print_error_message("Not implemented yet.")
 
 
 def update_transaction():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(sales.update_transaction(), HEADERS)
+    # view.print_error_message("Not implemented yet.")
 
 
 def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+    sales.delete_transaction()
+    # view.print_error_message("Not implemented yet.")
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+    transaction = sales.get_biggest_revenue_transaction()
+    print(f"ID of transaction that brought biggest revenue is: {transaction}")
+    # view.print_error_message("Not implemented yet.")
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    product = sales.get_biggest_revenue_product()
+    print(f"{product} is product which brought biggest revenue")
+    # view.print_error_message("Not implemented yet.")
 
 
 def count_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    count = sales.count_transactions_between()
+    print(f"Count transaction between given dates is {count}")
+    # view.print_error_message("Not implemented yet.")
 
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    transaction_sum = sales.sum_transactions_between()
+    print(f" Sum transaction between given dates is {transaction_sum}")
+    # view.print_error_message("Not implemented yet.")
 
 
 def run_operation(option):
@@ -79,3 +92,4 @@ def menu():
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)
+
