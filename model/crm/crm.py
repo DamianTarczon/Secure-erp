@@ -8,7 +8,6 @@ Data table structure:
 """
 
 from model import data_manager, util
-import common
 
 DATAFILE = "model/crm/crm.csv"
 HEADERS = ["id", "name", "email", "subscribed"]
@@ -37,7 +36,7 @@ def list_customers(table):
 
 def add_customer(table):
     table = data_manager.read_table_from_file(DATAFILE)
-    id = common.generate_id(number_of_small_letters=4,
+    id = util.generate_id(number_of_small_letters=4,
                 number_of_capital_letters=2,
                 number_of_digits=2,
                 number_of_special_chars=2,
@@ -58,7 +57,7 @@ def update_customer(table):
     email_index = 2
     sub_index = 3
     table = data_manager.read_table_from_file(DATAFILE)
-    id = common.generate_id(number_of_small_letters=4,
+    id = util.generate_id(number_of_small_letters=4,
                 number_of_capital_letters=2,
                 number_of_digits=2,
                 number_of_special_chars=2,
