@@ -16,9 +16,9 @@ DATAFILE = "model/hr/hr.csv"
 # DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 table = data_manager.write_table_to_file
-id_index = table[0]
-name_index = table[1]
-year_index = table[2]
+# id_index = table[0]
+# name_index = table[1]
+# year_index = table[2]
 
 def list_employees():
     # with open(DATAFILE, newline='') as csvfile:
@@ -39,16 +39,65 @@ def add_employee():
 
 
 def update_employee():
-    pass
+    id_index = 0
+    name_index = 1
+    birthday_index = 2
+    department_index = 3
+    clearance_index = 4
+    table = data_manager.read_table_from_file(DATAFILE)
+    id = util.generate_id(number_of_small_letters=4,
+                number_of_capital_letters=2,
+                number_of_digits=2,
+                number_of_special_chars=2,
+                allowed_special_chars=r"_+-!")
+    employee_to_update = input("Please provide id number of customer you want to update: ")
+    for line in table:
+        if line[id_index] == employee_to_update:
+            print(f"You choose {line[name_index]} to update!")
+            new_id = input(f"Please write 'yes' for id to update for {line[name_index]}. It will automatically change. If not, press enter: ")
+            new_name = input(f"Please provide name to update for {line[name_index]}. If not, press enter: ")
+            new_birthday = input(f"Please provide birthday(yyyy-mm-dd) to update for {line[name_index]}. If not, press enter: ")
+            new_department = input(f"Please provide department to update for {line[name_index]}. If not, press enter: ")
+            new_clearance = input(f"Please provide clerane lvl to update for {line[name_index]}. If not, press enter: ")
+            if new_id == 'yes':
+                line[id_index] = id
+                print(f"Id for {line[name_index]} has been changed! New id is: {line[id_index]}")
+            if new_name != '':
+                line[name_index] = new_name
+                print(f"Name has been changed! New name is {new_name}.")
+            if new_birthday != '':
+                line[birthday_index] = new_birthday
+                print(f"Birthday date for {line[name_index]} has been changed!")
+            if new_department != '':
+                line[department_index] = new_department
+                print(f"Department for {line[name_index]} has been changed!")
+            if new_clearance != '':
+                line[clearance_index] = new_clearance
+                print(f"Clearance lvl for {line[name_index]} has been changed!")
+        else:
+            print(f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
+            return update_employee(table) 
+    data_manager.write_table_to_file(DATAFILE, table, separator=';') 
+    return table
 
-def delete_employee():
-    user_input = input("Type line number: ")
-    for user_input in range(len(table)):
-        if user_input == id_index:
-
+def delete_employee(table):
+    id_index = 0
+    table = data_manager.read_table_from_file(DATAFILE)
+    employee_to_delete = input("Please provide id number of employee you want to remove: ")
+    for line in table:
+        if line[id_index] == employee_to_delete:
+            table.remove(line)
+            print(f"Employee with id number {employee_to_delete} has been removed!")
+        else:
+            print(f"There isn't id number like {employee_to_delete} in file! Please choose correct employee.")
+            return delete_employee(table)  
+    data_manager.write_table_to_file(DATAFILE, table, separator=';') 
+    return table
 
 
 def get_oldest_and_youngest():
+    name_index = table[1]
+    year_index = table[2]
     youngest_person_touple = ()
     oldest_person_touple = ()
     name_and_year_dict = {line[name_index]: line[year_index] for line in table}
@@ -60,32 +109,21 @@ def get_oldest_and_youngest():
             oldest_person_touple.append(key)
             return oldest_person_touple
 
-def count_employees_per_department():
-    list_of_departments = []
-    deparments_index = 3
-    list = data_manager.read_table_from_file('hr.csv')
-    dictionary_of_deparments = {}
-    for i in list:
-        if i[deparments_index] in list_of_departments:
-            pass
-        else:
-            list_of_departments.append(i[deparments_index])
-    for i in list_of_departments:
-        count = 0
-        for j in list:
-            if i in j:
-                count += 1
-        dictionary_of_deparments[i] = count
-    return dictionary_of_deparments
 
-def count_employees_with_clearance():
-    clearance_index = 4
-    list = data_manager.read_table_from_file('hr.csv')
-    count_employees = 0
-    for i in list:
-        if i[clearance_index] != '':
-            count_employees += 1
-    return count_employees
+def get_average_age():
+    birthday_index = 2
+    files = data_manager.read_table_from_file('hr.csv')
+    list_of_birthdays = []
+    for i in files:
+        list_of_birthdays.append(i[birthday_index])
+    list_of_ages = []
+    for j in list_of_birthdays:
+        j = j.split('-')
+        today = date.today()
+        list_of_ages.append(today.year - int(j[0]) - ((today.month, today.day) < (int(j[1]), int(j[2]))))
+    average_age = sum(list_of_ages)/(len(list_of_ages))
+    return average_age
+
 
 def next_birthdays():
     input_date = input('Write a date year/month/day: ').split('/')
@@ -111,3 +149,30 @@ def next_birthdays():
         if birthday in list_of_days:
             employees_names.append(i[name_index])
     return employees_names
+
+def count_employees_with_clearance():
+    clearance_index = 4
+    list = data_manager.read_table_from_file('hr.csv')
+    count_employees = 0
+    for i in list:
+        if i[clearance_index] != '':
+            count_employees += 1
+    return count_employees
+
+def count_employees_per_department():
+    list_of_departments = []
+    deparments_index = 3
+    list = data_manager.read_table_from_file('hr.csv')
+    dictionary_of_deparments = {}
+    for i in list:
+        if i[deparments_index] in list_of_departments:
+            pass
+        else:
+            list_of_departments.append(i[deparments_index])
+    for i in list_of_departments:
+        count = 0
+        for j in list:
+            if i in j:
+                count += 1
+        dictionary_of_deparments[i] = count
+    return dictionary_of_deparments
