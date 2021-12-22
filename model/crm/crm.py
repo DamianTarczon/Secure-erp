@@ -104,20 +104,3 @@ def get_subscribed_emails(table):
             list_subscribed_emails.append(sub_email)
     print(f"This is a list of emails that subscribe to us!")
     return list_subscribed_emails
-
-
-def run_operation(option):
-    if option == 1:
-        list_customers()
-    elif option == 2:
-        add_customer()
-    elif option == 3:
-        update_customer()
-    elif option == 4:
-        delete_customer()
-    elif option == 5:
-        get_subscribed_emails()
-    elif option == 0:
-        return
-    else:
-        raise KeyError("There is no such option.")
