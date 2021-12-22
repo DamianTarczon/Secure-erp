@@ -12,16 +12,6 @@ from model import data_manager, util
 DATAFILE = "model/crm/crm.csv"
 HEADERS = ["id", "name", "email", "subscribed"]
 
-# def start_module_crm():
-#     while True:
-#         ui.print_menu(title, option)
-#         try:
-#             run_operation(options)
-#         except ValueError:
-#             break
-#         except KeyError:
-#             ui.print_error_message(message)
-
 
 def list_customers(table):
     name_index = 1
