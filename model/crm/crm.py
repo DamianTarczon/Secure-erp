@@ -8,11 +8,10 @@ Data table structure:
 """
 
 from model import data_manager, util
-import common 
+import common
 
 DATAFILE = "model/crm/crm.csv"
 HEADERS = ["id", "name", "email", "subscribed"]
-
 
 # def start_module_crm():
 #     while True:
@@ -26,11 +25,12 @@ HEADERS = ["id", "name", "email", "subscribed"]
 
 
 def list_customers(table):
+    name_index = 1
     list_of_customers = []
     table = data_manager.read_table_from_file(DATAFILE)
     content = [word.split(";") for word in table.readlines()]
     for i in content:
-        list_of_customers.append(i[1])
+        list_of_customers.append(i[name_index])
     print("This is a list of our customers!")
     return list_of_customers
 
@@ -48,36 +48,40 @@ def add_customer(table):
     record = [id, name, email, sub]
     table.append(record)
     data_manager.write_table_to_file(DATAFILE, table, separator=';')
-    print(f"New customer {name} has been added!") 
+    print(f"New customer {name} has been added! His id number is {id}. His email address is {email}. His sub-value is {sub}") 
     return table
 
 
 def update_customer(table):
+    id_index = 0
+    name_index = 1
+    email_index = 2
+    sub_index = 3
     table = data_manager.read_table_from_file(DATAFILE)
     id = common.generate_id(number_of_small_letters=4,
                 number_of_capital_letters=2,
                 number_of_digits=2,
                 number_of_special_chars=2,
                 allowed_special_chars=r"_+-!")
-    customer_to_update = input("Please provide name of customer you want to update: ")
+    customer_to_update = input("Please provide id number of customer you want to update: ")
     for line in table:
-        if line[1] == customer_to_update:
-            print(f"You choose {line[1]} to update!")
-            update = input(f"Please provide category to update for {line[1]} (id, name, email, sub): ")
+        if line[id_index] == customer_to_update:
+            print(f"You choose {line[name_index]} to update!")
+            update = input(f"Please provide category to update for {line[name_index]} (id, name, email, sub): ")
             if update == "id".lower():
-                line[0] = id
-                print(f"Id for {line[1]} has been changed!")
+                line[id_index] = id
+                print(f"Id for {line[name_index]} has been changed!")
             elif update == "name".lower():
-                old_name = line[1]
+                old_name = line[name_index]
                 new_name = input(f"Please provide new name for {old_name}: ")
-                line[1] = new_name 
+                line[name_index] = new_name 
                 print(f"Name for {old_name} has been changed! Now {old_name}'s name is {new_name}.")
             elif update == "email".lower():
-                line[2] = input(f"Please provide new email for {line[1]}: ")
-                print(f"Email adress for {line[1]} has been changed!")
+                line[email_index] = input(f"Please provide new email for {line[name_index]}: ")
+                print(f"Email adress for {line[name_index]} has been changed!")
             elif update == "sub".lower():
-                line[3] = input(f"Please provide new sub-value for {line[1]}: ")
-                print(f"Subscription value for {line[1]} has been changed!")
+                line[sub_index] = input(f"Please provide new sub-value for {line[name_index]}: ")
+                print(f"Subscription value for {line[name_index]} has been changed!")
         else:
             print(f"There isn't name like {customer_to_update} in file! Please choose correct customer.")
             return update_customer(table) 
@@ -86,14 +90,15 @@ def update_customer(table):
 
         
 def delete_customer(table):
+    id_index = 0
     table = data_manager.read_table_from_file(DATAFILE)
-    customer_to_delete = input("Please provide name of customer you want to remove: ")
+    customer_to_delete = input("Please provide id number of customer you want to remove: ")
     for line in table:
-        if line[1] == customer_to_delete:
+        if line[id_index] == customer_to_delete:
             table.remove(line)
-            print(f"Customer named {customer_to_delete} has been removed!")
+            print(f"Customer with id number {customer_to_delete} has been removed!")
         else:
-            print(f"There isn't name like {customer_to_delete} in file! Please choose correct customer.")
+            print(f"There isn't id number like {customer_to_delete} in file! Please choose correct customer.")
             return delete_customer(table)  
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
@@ -110,3 +115,20 @@ def get_subscribed_emails(table):
             list_subscribed_emails.append(sub_email)
     print(f"This is a list of emails that subscribe to us!")
     return list_subscribed_emails
+
+
+def run_operation(option):
+    if option == 1:
+        list_customers()
+    elif option == 2:
+        add_customer()
+    elif option == 3:
+        update_customer()
+    elif option == 4:
+        delete_customer()
+    elif option == 5:
+        get_subscribed_emails()
+    elif option == 0:
+        return
+    else:
+        raise KeyError("There is no such option.")
