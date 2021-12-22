@@ -116,9 +116,37 @@ def get_biggest_revenue_transaction():
     return transaction_id[id_index]
 
 def get_biggest_revenue_product():
-    
+    product_index = 2
+    price_index = 3
+    dict_of_products = {}
+    list_of_products = []
+    table = data_manager.read_table_from_file(DATAFILE)
+    for line in table:
+        if line[product_index] in line:
+            list_of_products.append(line[product_index])
+            dict_of_products[f"{line[product_index]}"] = line[price_index]
 
-    pass
+    number_of_products_in_list = dict([(i, list_of_products.count(i)) for i in list_of_products])
+    prices_of_products = list(dict_of_products.values())
+    amound_of_products = list(number_of_products_in_list.values())
+    count_dict = []
+
+    for i in range(len(number_of_products_in_list)):
+        count_dict.append(float(prices_of_products[i]) * float(amound_of_products[i]))
+
+    auxiliary_list = []
+    for i in list_of_products:
+        if i in auxiliary_list:
+            pass
+        else:
+            auxiliary_list.append(i) 
+
+    new_dict = {}
+    for i in range(len(auxiliary_list)):
+        new_dict[auxiliary_list[i]] = count_dict[i] 
+    max_value_product = max(new_dict, key = new_dict.get) 
+    return max_value_product
+    
 
 def count_transactions_between():
     id = []
