@@ -1,21 +1,25 @@
 from model.crm import crm
 from view import terminal as view
+from model import data_manager, util
 
+DATAFILE = "C:/Users/Patryk/Codecool/secure-erp-python-mateuszski/model/crm/crm.csv"
+HEADERS = ["id", "name", "email", "subscribed"]
+table = data_manager.read_table_from_file(DATAFILE)
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(crm.list_customers(), "This is a list of our customers!")     
 
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(crm.add_customer(table), HEADERS) 
 
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(crm.update_customer(table), HEADERS) 
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(crm.delete_customer(table), HEADERS) 
 
 
 def get_subscribed_emails():

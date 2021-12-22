@@ -9,22 +9,22 @@ Data table structure:
 
 from model import data_manager, util
 
-DATAFILE = "model/crm/crm.csv"
+DATAFILE = "C:/Users/Patryk/Codecool/secure-erp-python-mateuszski/model/crm/crm.csv"
 HEADERS = ["id", "name", "email", "subscribed"]
 
 
-def list_customers(table):
+def list_customers():
     name_index = 1
     list_of_customers = []
     table = data_manager.read_table_from_file(DATAFILE)
-    content = [word.split(";") for word in table.readlines()]
-    for i in content:
+    for i in table:
         list_of_customers.append(i[name_index])
-    print("This is a list of our customers!")
+    print()
     return list_of_customers
+    print()
 
 
-def add_customer(table):
+def add_customer(table): 
     table = data_manager.read_table_from_file(DATAFILE)
     id = util.generate_id(number_of_small_letters=4,
                 number_of_capital_letters=2,
@@ -71,9 +71,9 @@ def update_customer(table):
             elif update == "sub".lower():
                 line[sub_index] = input(f"Please provide new sub-value for {line[name_index]}: ")
                 print(f"Subscription value for {line[name_index]} has been changed!")
-        else:
-            print(f"There isn't name like {customer_to_update} in file! Please choose correct customer.")
-            return update_customer(table) 
+            else:
+                print(f"There isn't id number {customer_to_update} in file! Please choose correct customer.")
+                return update_customer(table) 
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
 
@@ -85,10 +85,7 @@ def delete_customer(table):
     for line in table:
         if line[id_index] == customer_to_delete:
             table.remove(line)
-            print(f"Customer with id number {customer_to_delete} has been removed!")
-        else:
-            print(f"There isn't id number like {customer_to_delete} in file! Please choose correct customer.")
-            return delete_customer(table)  
+            print(f"Customer with id number {customer_to_delete} has been removed!") 
     data_manager.write_table_to_file(DATAFILE, table, separator=';') 
     return table
 
