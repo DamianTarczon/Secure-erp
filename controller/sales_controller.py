@@ -1,20 +1,19 @@
 from model.sales import sales
 from view import terminal as view
 
-HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 def list_transactions():
-    view.print_table(sales.list_transactions(), HEADERS)
+    view.print_table(sales.list_transactions(), sales.HEADERS)
     # view.print_error_message("Not implemented yet.")
 
 
 def add_transaction():  
-    sales.add_transaction()
+    view.print_table(sales.add_transaction(), sales.HEADERS)
     # view.print_error_message("Not implemented yet.")
 
 
 def update_transaction():
-    view.print_table(sales.update_transaction(), HEADERS)
+    view.print_table(sales.update_transaction(), sales.HEADERS)
     # view.print_error_message("Not implemented yet.")
 
 

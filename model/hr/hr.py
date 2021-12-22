@@ -61,26 +61,20 @@ def update_employee():
             new_clearance = input(f"Please provide clerane lvl to update for {line[name_index]}. If not, press enter: ")
             if new_id == 'yes':
                 line[id_index] = id
-                print(f"Id for {line[name_index]} has been changed! New id is: {line[id_index]}")
             if new_name != '':
                 line[name_index] = new_name
-                print(f"Name has been changed! New name is {new_name}.")
             if new_birthday != '':
                 line[birthday_index] = new_birthday
-                print(f"Birthday date for {line[name_index]} has been changed!")
             if new_department != '':
                 line[department_index] = new_department
-                print(f"Department for {line[name_index]} has been changed!")
             if new_clearance != '':
                 line[clearance_index] = new_clearance
-                print(f"Clearance lvl for {line[name_index]} has been changed!")
-        else:
-            print(f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
-            return update_employee(table) 
-    data_manager.write_table_to_file(DATAFILE, table, separator=';') 
+            data_manager.write_table_to_file(DATAFILE, table, separator=';')
+            return table
+    print(f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
     return table
 
-def delete_employee(table):
+def delete_employee():
     id_index = 0
     table = data_manager.read_table_from_file(DATAFILE)
     employee_to_delete = input("Please provide id number of employee you want to remove: ")
@@ -112,7 +106,7 @@ def get_oldest_and_youngest():
 
 def get_average_age():
     birthday_index = 2
-    files = data_manager.read_table_from_file('hr.csv')
+    files = data_manager.read_table_from_file(DATAFILE)
     list_of_birthdays = []
     for i in files:
         list_of_birthdays.append(i[birthday_index])
@@ -127,13 +121,10 @@ def get_average_age():
 
 def next_birthdays():
     input_date = input('Write a date year/month/day: ').split('/')
-    print(input_date)
     start_date = date(int(input_date[0]), int(input_date[1]), int(input_date[2]))
     days = timedelta(14)
     two_weeks_ahead_data = start_date + days
-    print(two_weeks_ahead_data)
     delta = two_weeks_ahead_data - start_date
-    print(delta)
     list_of_days = []
     employees_names = []
     birthday_index = 2
@@ -141,8 +132,7 @@ def next_birthdays():
     for i in range(delta.days+1):
         day = start_date + timedelta(days = i)
         list_of_days.append(day)
-    print(list_of_days)
-    list_of_files = data_manager.read_table_from_file('hr.csv')
+    list_of_files = data_manager.read_table_from_file(DATAFILE)
     for i in list_of_files:
         birthday_date = i[birthday_index].split('-')
         birthday = date(int(input_date[0]), int(birthday_date[1]), int(birthday_date[2]))
@@ -152,7 +142,7 @@ def next_birthdays():
 
 def count_employees_with_clearance():
     clearance_index = 4
-    list = data_manager.read_table_from_file('hr.csv')
+    list = data_manager.read_table_from_file(DATAFILE)
     count_employees = 0
     for i in list:
         if i[clearance_index] != '':
@@ -162,7 +152,7 @@ def count_employees_with_clearance():
 def count_employees_per_department():
     list_of_departments = []
     deparments_index = 3
-    list = data_manager.read_table_from_file('hr.csv')
+    list = data_manager.read_table_from_file(DATAFILE)
     dictionary_of_deparments = {}
     for i in list:
         if i[deparments_index] in list_of_departments:

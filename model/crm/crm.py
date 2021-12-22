@@ -9,7 +9,7 @@ Data table structure:
 
 from model import data_manager, util
 
-DATAFILE = "C:/Users/Patryk/Codecool/secure-erp-python-mateuszski/model/crm/crm.csv"
+DATAFILE = "model\crm\crm.csv"
 HEADERS = ["id", "name", "email", "subscribed"]
 
 

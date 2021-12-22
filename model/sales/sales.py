@@ -11,7 +11,7 @@ import re
 from model import data_manager, util
 import pandas as pd 
 
-DATAFILE = "secure-erp-python-mateuszski\model\sales\sales.csv"
+DATAFILE = "model\sales\sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 def list_transactions():
@@ -44,7 +44,7 @@ def add_transaction():
     record = [id, customer, product, price, date]
     table.append(record)
     data_manager.write_table_to_file(DATAFILE, table, separator=';')
-    print("New  customer has been added!") 
+    print("New transaction has been added!") 
     return table
 
 def update_transaction():

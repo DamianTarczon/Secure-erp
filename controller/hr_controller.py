@@ -1,17 +1,17 @@
 from model.hr import hr
 from view import terminal as view
-
+HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(hr.list_employees(), "lista employees")
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(hr.add_employee(), hr.HEADERS)
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(hr.update_employee(), HEADERS)
 
 
 def delete_employee():
@@ -23,19 +23,19 @@ def get_oldest_and_youngest():
 
 
 def get_average_age():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(hr.get_average_age(), 'Average age of employees')
 
 
 def next_birthdays():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(hr.next_birthdays(), 'Employees that have birthdays within two weeks from input date')
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(hr.count_employees_with_clearance(), 'Number of employees with clearance')
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    view.print_general_results(hr.count_employees_per_department(), 'Number of employees per department')
 
 
 def run_operation(option):
