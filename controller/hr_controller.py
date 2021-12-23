@@ -19,8 +19,10 @@ def delete_employee():
 
 
 def get_oldest_and_youngest():
-    view.print_general_results(hr.get_oldest_and_youngest, "min/max")
-
+    view.print_general_results(hr.get_oldest_and_youngest(), 'min/max')
+    #print("min/max")
+    #print(hr.get_oldest_and_youngest())
+    #wersja do sprawdzenia
 
 def get_average_age():
     view.print_general_results(hr.get_average_age(), 'Average age of employees')

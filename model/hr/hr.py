@@ -11,8 +11,8 @@ from datetime import date, timedelta
 from model import data_manager, util
 
 
-#DATAFILE = "model/hr/hr.csv"
-DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
+DATAFILE = "model/hr/hr.csv"
+#DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 table = data_manager.write_table_to_file
 
@@ -74,8 +74,7 @@ def update_employee():
                 line[clearance_index] = new_clearance
             data_manager.write_table_to_file(DATAFILE, table, separator=';')
             return table
-    print(
-        f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
+    print(f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
     return table
 
 
@@ -101,14 +100,13 @@ def get_oldest_and_youngest():
     year_index = 2
     youngest_person_touple = ()
     oldest_person_touple = ()
-    for line in table:
-        name_and_year_dict = {line[name_index]: line[year_index]}
+    name_and_year_dict = {line[name_index]: line[year_index] for line in table}
     for key, value in name_and_year_dict.items():
         if value == min(name_and_year_dict.values()):
             youngest_person_touple = (key)
-        elif value == max(name_and_year_dict.values()):
+        if value == max(name_and_year_dict.values()):
             oldest_person_touple = (key)
-    return youngest_person_touple, oldest_person_touple
+    return (youngest_person_touple, oldest_person_touple)
 
 
 def get_average_age():
@@ -141,11 +139,11 @@ def next_birthdays():
     for i in range(delta.days+1):
         day = start_date + timedelta(days=i)
         list_of_days.append(day)
+    print(list_of_days)
     list_of_files = data_manager.read_table_from_file(DATAFILE)
     for i in list_of_files:
         birthday_date = i[birthday_index].split('-')
-        birthday = date(int(input_date[0]), int(
-            birthday_date[1]), int(birthday_date[2]))
+        birthday = date(int(input_date[0]), int(birthday_date[1]), int(birthday_date[2]))
         if birthday in list_of_days:
             employees_names.append(i[name_index])
     return employees_names
@@ -167,9 +165,7 @@ def count_employees_per_department():
     list = data_manager.read_table_from_file(DATAFILE)
     dictionary_of_deparments = {}
     for i in list:
-        if i[deparments_index] in list_of_departments:
-            pass
-        else:
+        if i[deparments_index] not in list_of_departments:
             list_of_departments.append(i[deparments_index])
     for i in list_of_departments:
         count = 0

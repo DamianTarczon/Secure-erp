@@ -120,9 +120,9 @@ def get_biggest_revenue_product():
     list_of_products = []
     table = data_manager.read_table_from_file(DATAFILE)
     for line in table:
-        if line[product_index] in line:
-            list_of_products.append(line[product_index])
-            dict_of_products[f"{line[product_index]}"] = line[price_index]
+        #if line[product_index] in line:
+        list_of_products.append(line[product_index])
+        dict_of_products[f"{line[product_index]}"] = line[price_index]
 
     number_of_products_in_list = dict([(i, list_of_products.count(i)) for i in list_of_products])
     prices_of_products = list(dict_of_products.values())
@@ -134,9 +134,7 @@ def get_biggest_revenue_product():
 
     auxiliary_list = []
     for i in list_of_products:
-        if i in auxiliary_list:
-            pass
-        else:
+        if i not in auxiliary_list:
             auxiliary_list.append(i) 
 
     new_dict = {}
