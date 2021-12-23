@@ -9,11 +9,11 @@ Data table structure:
 """
 from datetime import date, timedelta
 from model import data_manager, util
-# import csv
 
 
-DATAFILE = "model/hr/hr.csv"
-# DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
+
+#DATAFILE = "model/hr/hr.csv"
+DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 table = data_manager.write_table_to_file
 # id_index = table[0]
@@ -21,22 +21,26 @@ table = data_manager.write_table_to_file
 # year_index = table[2]
 
 def list_employees():
-    # with open(DATAFILE, newline='') as csvfile:
-    #     reader = csv.reader(csvfile, delimiter=';')
-    #     for row in reader:
-    #         # print(row)
-    #         return row
-    table = data_manager.read_table_from_file(DATAFILE)
-    return table, HEADERS
+    return data_manager.read_table_from_file(DATAFILE)
 
 
 def add_employee():
+    # table = data_manager.read_table_from_file(DATAFILE)
+    # id = util.generate_id
+    # record = [id, input("Name: "), input("Your birth date: ")]
+    # table.append(record)
+    # data_manager.write_table_to_file(DATAFILE, table)
     table = data_manager.read_table_from_file(DATAFILE)
-    id = util.generate_id
-    record = [id, input("Name: "), input("Your birth date: ")]
+    id = util.generate_id()
+    name = input("Enter new employee's name: ")
+    date_of_bith = input(f"{name} type date of birth: ")
+    department = input(f"{name} which department are you working for?: ")
+    clearance = input(f"{name} yours clearance is?: ")
+    record = [id, name, date_of_bith, department, clearance]
     table.append(record)
-    data_manager.write_table_to_file(DATAFILE, table)
-
+    data_manager.write_table_to_file(DATAFILE, table, separator=';')
+    print(f"New employee {name} has been added! His id number is {id}. His date of birth is {date_of_bith}. His department is {department}") 
+    return table
 
 def update_employee():
     id_index = 0
@@ -88,18 +92,31 @@ def delete_employee():
  
 
 def get_oldest_and_youngest():
-    name_index = table[1]
-    year_index = table[2]
+    # name_index = table[1]
+    # year_index = table[2]
+    # youngest_person_touple = ()
+    # oldest_person_touple = ()
+    # name_and_year_dict = {line[name_index]: line[year_index] for line in table}
+    # for key, value in name_and_year_dict.items():
+    #     if value == min(name_and_year_dict.values()):
+    #         youngest_person_touple.append(key)
+    #         return youngest_person_touple
+    #     elif value == max(name_and_year_dict.values()):
+    #         oldest_person_touple.append(key)
+    #         return oldest_person_touple
+    table = data_manager.read_table_from_file(DATAFILE)
+    name_index = 1
+    year_index = 2
     youngest_person_touple = ()
     oldest_person_touple = ()
-    name_and_year_dict = {line[name_index]: line[year_index] for line in table}
+    for line in table:
+        name_and_year_dict = {line[name_index]: line[year_index]}
     for key, value in name_and_year_dict.items():
         if value == min(name_and_year_dict.values()):
-            youngest_person_touple.append(key)
-            return youngest_person_touple
+            youngest_person_touple=(key)
         elif value == max(name_and_year_dict.values()):
-            oldest_person_touple.append(key)
-            return oldest_person_touple
+            oldest_person_touple=(key)
+    return youngest_person_touple, oldest_person_touple
 
 
 def get_average_age():
