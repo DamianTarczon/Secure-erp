@@ -11,25 +11,17 @@ from datetime import date, timedelta
 from model import data_manager, util
 
 
-
 #DATAFILE = "model/hr/hr.csv"
 DATAFILE = 'C:/1Code/Projects/secure-erp-python-mateuszski/model/hr/hr.csv'
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 table = data_manager.write_table_to_file
-# id_index = table[0]
-# name_index = table[1]
-# year_index = table[2]
+
 
 def list_employees():
     return data_manager.read_table_from_file(DATAFILE)
 
 
 def add_employee():
-    # table = data_manager.read_table_from_file(DATAFILE)
-    # id = util.generate_id
-    # record = [id, input("Name: "), input("Your birth date: ")]
-    # table.append(record)
-    # data_manager.write_table_to_file(DATAFILE, table)
     table = data_manager.read_table_from_file(DATAFILE)
     id = util.generate_id()
     name = input("Enter new employee's name: ")
@@ -39,8 +31,9 @@ def add_employee():
     record = [id, name, date_of_bith, department, clearance]
     table.append(record)
     data_manager.write_table_to_file(DATAFILE, table, separator=';')
-    print(f"New employee {name} has been added! His id number is {id}. His date of birth is {date_of_bith}. His department is {department}") 
+    print(f"New employee {name} has been added! His id number is {id}. His date of birth is {date_of_bith}. His department is {department}")
     return table
+
 
 def update_employee():
     id_index = 0
@@ -50,19 +43,25 @@ def update_employee():
     clearance_index = 4
     table = data_manager.read_table_from_file(DATAFILE)
     id = util.generate_id(number_of_small_letters=4,
-                number_of_capital_letters=2,
-                number_of_digits=2,
-                number_of_special_chars=2,
-                allowed_special_chars=r"_+-!")
-    employee_to_update = input("Please provide id number of customer you want to update: ")
+                          number_of_capital_letters=2,
+                          number_of_digits=2,
+                          number_of_special_chars=2,
+                          allowed_special_chars=r"_+-!")
+    employee_to_update = input(
+        "Please provide id number of customer you want to update: ")
     for line in table:
         if line[id_index] == employee_to_update:
             print(f"You choose {line[name_index]} to update!")
-            new_id = input(f"Please write 'yes' for id to update for {line[name_index]}. It will automatically change. If not, press enter: ")
-            new_name = input(f"Please provide name to update for {line[name_index]}. If not, press enter: ")
-            new_birthday = input(f"Please provide birthday(yyyy-mm-dd) to update for {line[name_index]}. If not, press enter: ")
-            new_department = input(f"Please provide department to update for {line[name_index]}. If not, press enter: ")
-            new_clearance = input(f"Please provide clerane lvl to update for {line[name_index]}. If not, press enter: ")
+            new_id = input(
+                f"Please write 'yes' for id to update for {line[name_index]}. It will automatically change. If not, press enter: ")
+            new_name = input(
+                f"Please provide name to update for {line[name_index]}. If not, press enter: ")
+            new_birthday = input(
+                f"Please provide birthday(yyyy-mm-dd) to update for {line[name_index]}. If not, press enter: ")
+            new_department = input(
+                f"Please provide department to update for {line[name_index]}. If not, press enter: ")
+            new_clearance = input(
+                f"Please provide clerane lvl to update for {line[name_index]}. If not, press enter: ")
             if new_id == 'yes':
                 line[id_index] = id
             if new_name != '':
@@ -75,35 +74,28 @@ def update_employee():
                 line[clearance_index] = new_clearance
             data_manager.write_table_to_file(DATAFILE, table, separator=';')
             return table
-    print(f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
+    print(
+        f"There isn't name like {employee_to_update} in file! Please choose correct customer.")
     return table
+
 
 def delete_employee():
     id_index = 0
     table = data_manager.read_table_from_file(DATAFILE)
-    employee_to_delete = input("Please provide id number of employee you want to remove: ")
+    employee_to_delete = input(
+        "Please provide id number of employee you want to remove: ")
     for line in table:
         if line[id_index] == employee_to_delete:
             table.remove(line)
-            print(f"Employee with id number {employee_to_delete} has been removed!")
-            data_manager.write_table_to_file(DATAFILE, table, separator=';') 
+            print(
+                f"Employee with id number {employee_to_delete} has been removed!")
+            data_manager.write_table_to_file(DATAFILE, table, separator=';')
             return table
-    print(f"There isn't id number like {employee_to_delete} in file! Please choose correct employee.")
- 
+    print(
+        f"There isn't id number like {employee_to_delete} in file! Please choose correct employee.")
+
 
 def get_oldest_and_youngest():
-    # name_index = table[1]
-    # year_index = table[2]
-    # youngest_person_touple = ()
-    # oldest_person_touple = ()
-    # name_and_year_dict = {line[name_index]: line[year_index] for line in table}
-    # for key, value in name_and_year_dict.items():
-    #     if value == min(name_and_year_dict.values()):
-    #         youngest_person_touple.append(key)
-    #         return youngest_person_touple
-    #     elif value == max(name_and_year_dict.values()):
-    #         oldest_person_touple.append(key)
-    #         return oldest_person_touple
     table = data_manager.read_table_from_file(DATAFILE)
     name_index = 1
     year_index = 2
@@ -113,9 +105,9 @@ def get_oldest_and_youngest():
         name_and_year_dict = {line[name_index]: line[year_index]}
     for key, value in name_and_year_dict.items():
         if value == min(name_and_year_dict.values()):
-            youngest_person_touple=(key)
+            youngest_person_touple = (key)
         elif value == max(name_and_year_dict.values()):
-            oldest_person_touple=(key)
+            oldest_person_touple = (key)
     return youngest_person_touple, oldest_person_touple
 
 
@@ -129,14 +121,16 @@ def get_average_age():
     for j in list_of_birthdays:
         j = j.split('-')
         today = date.today()
-        list_of_ages.append(today.year - int(j[0]) - ((today.month, today.day) < (int(j[1]), int(j[2]))))
+        list_of_ages.append(
+            today.year - int(j[0]) - ((today.month, today.day) < (int(j[1]), int(j[2]))))
     average_age = sum(list_of_ages)/(len(list_of_ages))
     return average_age
 
 
 def next_birthdays():
     input_date = input('Write a date year/month/day: ').split('/')
-    start_date = date(int(input_date[0]), int(input_date[1]), int(input_date[2]))
+    start_date = date(int(input_date[0]), int(
+        input_date[1]), int(input_date[2]))
     days = timedelta(14)
     two_weeks_ahead_data = start_date + days
     delta = two_weeks_ahead_data - start_date
@@ -145,15 +139,17 @@ def next_birthdays():
     birthday_index = 2
     name_index = 1
     for i in range(delta.days+1):
-        day = start_date + timedelta(days = i)
+        day = start_date + timedelta(days=i)
         list_of_days.append(day)
     list_of_files = data_manager.read_table_from_file(DATAFILE)
     for i in list_of_files:
         birthday_date = i[birthday_index].split('-')
-        birthday = date(int(input_date[0]), int(birthday_date[1]), int(birthday_date[2]))
+        birthday = date(int(input_date[0]), int(
+            birthday_date[1]), int(birthday_date[2]))
         if birthday in list_of_days:
             employees_names.append(i[name_index])
     return employees_names
+
 
 def count_employees_with_clearance():
     clearance_index = 4
@@ -163,6 +159,7 @@ def count_employees_with_clearance():
         if i[clearance_index] != '':
             count_employees += 1
     return count_employees
+
 
 def count_employees_per_department():
     list_of_departments = []
